@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="European Labs Project Kickoff Framework Study led by Dr Constantin Fahom">
+<title>Labs Project Kickoff Framework Study | Dr Constantin Fahom</title>
+<style>
+:root {
+  --accent:#A100FF; --accent-dark:#65009B; --accent-soft:#F5EAFF;
+  --ready:#A100FF; --ready-hover:#8F00E0;
+  --ink:#111; --muted:#66616B; --line:#E5DFE8; --bg:#FAF9FB;
+  --warn:#B54708; --warn-bg:#FFF7ED; --danger:#B42318; --danger-bg:#FFF0EE;
+  --shadow:0 18px 45px rgba(36,18,46,.08); --radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#fff,var(--bg));color:var(--ink);line-height:1.5}
+button,input,textarea{font:inherit} button{cursor:pointer}
+header{position:sticky;top:0;z-index:30;background:#111;color:#fff;padding:11px 18px}
+.bar{max-width:980px;margin:auto}
+.brand{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.brand b{color:var(--accent);font-size:27px}
+.byline{font-weight:400;text-transform:none;letter-spacing:0;color:#ddd7e0}
+.acc-wordmark{display:inline-flex;align-items:center;gap:7px;font-size:18px;font-weight:700;letter-spacing:-.02em;text-transform:lowercase;color:#fff}
+.acc-wordmark .acc-mark{color:var(--accent);font-size:24px;font-weight:900;line-height:1}
+.study-meta{display:flex;align-items:center;gap:14px;min-width:0}
+.study-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.track{height:7px;background:#353238;border-radius:99px;overflow:hidden;margin-top:8px}
+#prog{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#D56DFF);transition:.3s}
+.meta{display:flex;justify-content:space-between;color:#d6d1d9;font-size:11px;margin-top:5px}
+main{max-width:980px;margin:auto;padding:22px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.step{display:none;padding:30px} .step.on{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.imagine{background:#111;color:#fff;padding:30px;border-radius:18px;position:relative;overflow:hidden}
+.imagine:after{content:"";position:absolute;width:320px;height:320px;right:-90px;top:-95px;border-radius:50%;background:radial-gradient(circle,rgba(161,0,255,.45),transparent 68%)}
+.ey{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#DCA5FF;margin-bottom:8px}
+h1,h2,h3{line-height:1.16;margin-top:0} h1{font-size:clamp(27px,4.1vw,40px);margin-bottom:13px} h2{font-size:clamp(24px,3vw,32px);margin-bottom:8px} h3{font-size:17px;margin-bottom:6px}
+.imagine p{font-size:17px;color:#ECE7EF;max-width:780px;margin-bottom:0}
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:20px}
+.scene{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);border-radius:14px;padding:16px;opacity:0;transform:translateY(12px);animation:scene .5s forwards}
+.scene:nth-child(1){animation-delay:.15s} .scene:nth-child(2){animation-delay:.5s} .scene:nth-child(3){animation-delay:.85s}
+@keyframes scene{to{opacity:1;transform:none}} .scene b{display:block;margin-bottom:4px} .scene span{font-size:13px;color:#DDD7E1}
+.bridge{margin:18px 0;background:var(--accent-soft);border:1px solid #E2C7F4;border-radius:14px;padding:17px;display:flex;gap:12px}
+.arrow{width:38px;height:38px;flex:0 0 38px;background:var(--accent);color:#fff;border-radius:11px;display:grid;place-items:center;font-weight:700}
+.intro{border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:5px}.intro h2{font-size:clamp(20px,2.5vw,26px);line-height:1.25} .intro .ey{color:var(--accent-dark)} .intro p,.hint{color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0}
+.box{border:1px solid var(--line);border-radius:14px;background:#F9F8FA;padding:15px}
+.box p,.box li{font-size:14px;color:#514C55}.flow-box{position:relative;padding-top:20px}.flow-box::after{content:attr(data-order);position:absolute;top:10px;right:12px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-dark);font-size:12px;font-weight:800}.flow-box h3{padding-right:34px} .box p{margin:5px 0} .box ul{padding-left:20px;margin:6px 0}
+.callout{border-left:4px solid var(--accent);background:#FCF7FF;padding:14px 16px;border-radius:0 12px 12px 0;margin:16px 0;font-size:14px}
+.bias{border-left-color:#111;background:#F5F4F5}.help-explain{border-left-color:var(--accent);background:#F8F1FF}.feature-list{margin:7px 0 0;padding-left:20px}.feature-list li{margin:5px 0}
+.ethics{border-left-color:var(--ready);background:#F2F8FC}
+.consent{border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:17px}
+.consent label{display:flex;gap:9px;margin:10px 0;font-size:14px;align-items:flex-start} input{accent-color:var(--accent)}
+.consent-status{font-size:13px;margin-top:10px;color:var(--muted)} .consent-status.ready{color:var(--ready);font-weight:700}
+.q{padding:20px 0;border-bottom:1px solid var(--line)} .qh{display:flex;gap:9px;align-items:flex-start;margin-bottom:10px}
+.qn{background:var(--accent-soft);color:var(--accent-dark);font-size:12px;font-weight:700;border-radius:99px;padding:5px 8px;flex:0 0 auto}
+.qt{font-weight:700;flex:1}
+.help{position:relative;flex:0 0 auto} .help button{width:28px;height:28px;border-radius:50%;border:1px solid #D7D0DC;background:#fff;color:var(--accent-dark);font-weight:800}
+.help button:hover,.help button:focus-visible{border-color:var(--accent);outline:3px solid rgba(161,0,255,.12)}
+.tip{display:none;position:absolute;right:0;top:34px;background:#111;color:#fff;width:min(340px,82vw);padding:11px 12px;border-radius:10px;font-size:13px;z-index:40;box-shadow:0 12px 30px rgba(0,0,0,.22)}
+.help:hover .tip,.help:focus-within .tip,.help.open .tip{display:block}
+.limit-note{display:inline-block;background:#FFF3D6;border:1px solid #F0C66A;color:#6A4700;border-radius:9px;padding:7px 10px;margin:0 0 11px;font-size:13px;font-weight:700}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{border:1px solid #DED9E2;border-radius:11px;padding:10px 11px;display:flex;gap:8px;align-items:flex-start;background:#fff}
+.choice:hover{border-color:#BE87D9;background:#FCF8FF} .choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)} .choice.off{opacity:.42;pointer-events:none}
+.counter{font-size:12px;color:var(--muted);margin-top:7px} .counter.max{color:var(--accent-dark);font-weight:700}
+.inline-warning{display:none;background:var(--warn-bg);border:1px solid #FED7AA;color:#8A3B0A;padding:10px 12px;border-radius:10px;margin:9px 0;font-size:13px}
+.inline-warning.show{display:block}
+textarea,.other-input,.matrix-other-text{width:100%;border:1px solid #D8D2DC;border-radius:11px;padding:12px;background:#fff}
+textarea{min-height:130px;resize:vertical} textarea:focus,.other-input:focus,.matrix-other-text:focus{outline:3px solid rgba(161,0,255,.12);border-color:var(--accent)}.text-invalid{border-color:var(--danger)!important;outline:3px solid rgba(180,35,24,.10)!important}
+.word{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:5px}
+.other-wrap{display:none;margin-top:9px} .other-wrap.show{display:block} .other-wrap label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+.matrix{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:700px} th,td{padding:9px;border-bottom:1px solid var(--line);font-size:12px;text-align:center}
+th:first-child,td:first-child{text-align:left;min-width:290px;position:sticky;left:0;background:#fff;z-index:1} thead th{background:#F5F2F7}
+.matrix-instruction{font-size:14px;color:var(--muted);margin:0 0 12px}
+.matrix td:first-child,.matrix th:first-child{font-size:15px;font-weight:600;line-height:1.35}
+.missing-factor-box{margin-top:14px;border:1px dashed #CDBED6;border-radius:13px;padding:14px;background:#FCFBFD}
+.missing-factor-box p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.add-factor-btn{margin-top:10px;border:1px solid var(--accent);background:#fff;color:var(--accent-dark);font-weight:700;border-radius:999px;padding:9px 13px}
+.add-factor-btn:hover{background:var(--accent-soft)}
+.extra-factor-row{display:grid;grid-template-columns:minmax(230px,1fr) auto;gap:10px;align-items:center;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.extra-rating{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.extra-rating>span{font-size:12px;color:var(--muted);margin-right:2px}
+.extra-rating label{display:flex;align-items:center;gap:3px;font-size:12px}
+@media(max-width:720px){.extra-factor-row{grid-template-columns:1fr}}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:17px 30px 24px;background:#FCFBFD;border-top:1px solid var(--line)}
+button.btn{border:0;border-radius:99px;padding:11px 17px;font-weight:700;transition:.18s}
+.primary{background:var(--ready);color:#fff} .primary:hover{background:var(--ready-hover)} .primary.pending{background:#D8D5DB;color:#6E6971;box-shadow:none}
+.secondary{background:#ECE9EE} .ghost{background:transparent;color:#666}
+#error{display:none;background:var(--danger-bg);border:1px solid #F0C8C2;color:#7A271A;padding:11px 13px;border-radius:10px;margin:0 0 12px} #error.show{display:block}
+.success{display:none;text-align:center;padding:55px 25px 65px} .success.on{display:block} .tick{width:82px;height:82px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#D26CFF);color:#fff;font-size:39px}
+.success p{max-width:640px;margin:9px auto;color:var(--muted)} .conf{position:fixed;top:-20px;width:10px;height:18px;z-index:100;animation:fall linear forwards}
+@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(720deg)}}
+.small{font-size:12px;color:var(--muted)}
+.section-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.section-chips span{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;color:#403B43}.matrix td:first-child,.matrix th:first-child{font-size:15px;font-weight:600;line-height:1.35}
+@media(max-width:720px){
+ main{padding:12px 10px 40px} .step{padding:20px 16px} .scenes,.grid,.opts{grid-template-columns:1fr} .imagine{padding:22px 18px} .imagine p{font-size:15px}
+ .nav{padding:14px 16px 18px;position:sticky;bottom:0;z-index:15} .tip{position:fixed;left:12px;right:12px;bottom:70px;top:auto;width:auto} .byline{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important} .scene{opacity:1;transform:none} .conf{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="bar">
+  <div class="brand">
+   <div class="study-meta">
+    <span class="acc-wordmark"><span class="acc-mark">&gt;</span><span>accenture</span></span>
+    <span class="study-title">Labs Project Kickoff Framework Study</span>
+   </div>
+   <span class="byline">Dr Constantin Fahom · Study lead</span>
+  </div>
+  <div class="track"><div id="prog"></div></div>
+  <div class="meta"><span id="label">Participant information</span><span id="pct">0%</span></div>
+ </div>
+</header>
+
+<main><div class="card">
+<form id="form" novalidate autocomplete="off">
+<div id="error" role="alert"></div>
+
+<section class="step on" data-title="Participant information">
+ <div class="imagine">
+  <div class="ey">Imagine your next project kickoff</div>
+  <h1>Imagine your next project starts with everyone clear on the requirements, aligned, ready and motivated.</h1>
+  <p>
+   You know why the project matters, what must be delivered, who owns what, who makes key decisions and what could block progress. Important questions are raised early. Everyone leaves the kickoff aligned on the plan, responsibilities and next steps.
+  </p>
+  <div class="scenes">
+   <div class="scene"><b>Before kickoff</b><span>The right information, people and open questions are ready.</span></div>
+   <div class="scene"><b>During kickoff</b><span>The team aligns on outcomes, responsibilities, decisions and how they will work together.</span></div>
+   <div class="scene"><b>After kickoff</b><span>Everyone knows the next steps and owners, and the project can start with fewer avoidable surprises.</span></div>
+  </div>
+ </div>
+
+ <div class="bridge"><div class="arrow">→</div><div><h3>You can help shape this ideal.</h3><p>By sharing what you have seen work, and what has caused problems, you can help turn real Labs project experience into a practical kickoff approach for future project teams.</p></div></div>
+
+ <div class="intro">
+  <div class="ey">Why this study is needed</div>
+  <h2>We want to understand the real challenges and the critical success factors for a successful project kickoff.</h2>
+  <p>
+   Project kickoff still depends heavily on individual experience. Teams may use different templates, ask different questions or discover important gaps only after the work has started.
+   A preliminary review of Accenture Method One did not identify one structured Labs-specific approach that brings the key kickoff elements together.
+  </p>
+ </div>
+
+ <div class="grid flow-grid">
+  <div class="box flow-box" data-order="1"><h3>Main purpose</h3><p>Understand the most common kickoff challenges and identify the critical success factors for a successful project start. The findings will be used to build a practical <b>Labs Project Kickoff Framework</b>.</p></div>
+  <div class="box flow-box" data-order="2"><h3>Longer-term goal</h3><p>Use the member-checked Framework as the foundation for an <b>AI-enabled Project Kickoff Architect</b> that can read approved project information, identify gaps and tailor kickoff support to the project.</p></div>
+  <div class="box flow-box" data-order="3"><h3>Who is invited to participate in this study?</h3><p>Experienced European Labs professionals with direct experience in project delivery, project starts or project kickoffs.</p></div>
+  <div class="box flow-box" data-order="4"><h3>What will you do?</h3><p>Complete one semi-structured questionnaire. Most questions are quick selections, with a small number of open questions for concrete examples and practical experience. Expected time: <b>about 20–30 minutes</b>, depending on how much detail you choose to provide in the open questions.</p></div>
+  <div class="box flow-box" data-order="5"><h3>How will the data be analysed?</h3><p>Structured answers will be summarised using descriptive statistics. Open-text answers will be coded and analysed thematically in <b>NVivo software</b> (research software for organising, coding and analysing qualitative data). The open-text data will be organised into themes based on recurring patterns and mechanisms, and the findings will then be translated into the Project Kickoff Framework.</p></div>
+  <div class="box flow-box" data-order="6"><h3>What happens next?</h3><p>The draft Framework will be member-checked by a small set of experienced Project Managers / Delivery Leads for credibility, clarity and usability, and then tested on a small number of real Labs projects.</p></div>
+ </div>
+
+
+ <div class="callout ethics">
+  <b>Ethics and data handling.</b> The study follows the principles of voluntary participation, data minimisation, confidentiality, transparency and human oversight.
+  Responses should be stored and processed only in approved Accenture systems and used for this initiative, Framework member checking and pilot activities.
+ </div>
+
+ <div class="grid">
+  <div class="box"><h3>Anonymity</h3><p>The research dataset is designed to be anonymous. The questionnaire does not ask for your name, email address, client name or project name. Please do not include names or identifying details in open-text answers.</p></div>
+  <div class="box"><h3>Please do not include in your answers</h3><ul><li>client or project names;</li><li>names of colleagues;</li><li>personal data;</li><li>confidential or commercially sensitive information.</li></ul></div>
+  <div class="box"><h3>Your rights</h3><p>Participation is voluntary. You may skip any question and stop before submitting. Because no identifying field is collected, it may not be possible to identify and remove one individual response after submission.</p></div>
+  <div class="box"><h3>Human oversight</h3><p>AI-supported outputs are treated as support only. Findings, themes, Framework decisions and future agent recommendations remain subject to human review and judgement.</p></div>
+ </div>
+
+ <div class="box" style="margin-top:16px">
+  <h3>What will the questionnaire cover?</h3>
+  <div class="section-chips">
+   <span>1. Your Accenture project experience</span>
+   <span>2. Current kickoff experience</span>
+   <span>3. Critical success factors</span>
+   <span>4. Project conditions that change kickoff needs</span>
+   <span>5. Critical project information & onboarding</span>
+   <span>6. AI-supported project kickoff</span>
+   <span>7. Final reflections</span>
+  </div>
+ </div>
+
+ <div class="callout help-explain">
+  <b>Helpful features while you complete the questionnaire:</b>
+  <ul class="feature-list">
+   <li><b>?</b> Hover over the question-mark icon to see why a question is being asked. Click it to keep the explanation open; click elsewhere to close it.</li>
+   <li><b>Select up to 5</b> means you can choose fewer than five. The limit is used to focus on your strongest priorities.</li>
+   <li>If you choose <b>Other</b>, a text box will open so you can add your own answer.</li>
+  </ul>
+ </div>
+
+ <div class="callout">
+  <b>All survey questions are optional.</b> Please answer only where you have relevant experience. You are encouraged to answer as fully as you can where you have direct knowledge.
+ </div>
+
+ <div class="callout bias">
+  <b>Please answer based mainly on your Accenture experience and on what actually happens in practice.</b>
+  Experience from previous roles is valuable, but this study is focused on improving how Labs projects are started at Accenture. There is no preferred answer, and both strong and difficult project experiences are useful.
+ </div>
+
+ <div class="consent">
+  <h3>Consent to participate</h3>
+  
+  <label><input id="c1" type="checkbox"> <span>I have read and understood the information above.</span></label>
+  <label><input id="c2" type="checkbox"> <span>I understand participation is voluntary and I can skip any survey question.</span></label>
+  <label><input id="c3" type="checkbox"> <span>I will not enter client-confidential, personal or commercially sensitive information.</span></label>
+  <label><input id="c4" type="checkbox"> <span>I agree that my anonymous responses may be used to develop, member-check and pilot the Labs Project Kickoff Framework and related AI use cases.</span></label>
+  <div id="consentStatus" class="consent-status">Please tick all four boxes to continue.</div>
+ </div>
+</section>
+
+<div id="dynamic"></div>
+</form>
+
+<div class="nav" id="nav">
+ <button class="btn ghost" type="button" id="back">← Back</button>
+ <button class="btn primary pending" type="button" id="next">Continue →</button>
+</div>
+
+<div class="success" id="success">
+ <div class="tick">✓</div>
+ <div class="ey" style="color:var(--accent-dark)">Thank you</div>
+ <h2>Thank you for your participation in this study.</h2>
+ <p>Your experience will help identify the most important challenges and success factors for Labs project kickoffs and shape the first version of the Project Kickoff Framework.</p>
+ <p>Your anonymous response has been submitted to the configured research workflow for secure storage and further analysis.</p>
+</div>
+</div></main>
+
+<script>
+const QUESTIONS = [{"id": "q1_role", "step": "Your Accenture project experience", "type": "single", "title": "What best describes your primary role on projects?", "why": "People may have different roles across projects. Please select the role that best reflects your most recent project experience involving a project kickoff.", "options": ["Project / Program Manager", "Delivery Lead", "Workstream Lead", "Functional Lead / Subject Matter Expert", "Technical Lead / Architect", "Consultant / Project Team Member", "Quality / Validation / Compliance role", "Other"]}, {"id": "q2_experience", "step": "Your Accenture project experience", "type": "single", "title": "How many years of project delivery experience at Accenture do you have?", "why": "Years of Accenture project delivery experience helps us understand how much internal delivery experience is represented in the study. This is important when judging the strength and relevance of the findings for the Accenture Labs practice.", "options": ["Less than 1 year", "1–3 years", "4–6 years", "7–10 years", "11–15 years", "16–20 years", "More than 20 years"]}, {"id": "q3_kickoffs", "step": "Your Accenture project experience", "type": "single", "title": "Approximately how many project kickoffs or major project starts have you participated in at Accenture?", "why": "Direct experience with Accenture project kickoffs is important for the relevance and trustworthiness of the Framework. This question shows how much first-hand kickoff experience is represented in the study.", "options": ["1–3", "4–10", "11–20", "More than 20"]}, {"id": "q4_region", "step": "Your Accenture project experience", "type": "single", "title": "Which European region are you mainly working in?", "why": "We want input from different parts of the European Labs practice so the findings do not rely too heavily on one region. Cross-regional participation strengthens the trustworthiness of the study.", "options": ["CEE", "UK / Ireland", "France / Belgium / Luxembourg", "Spain / Portugal", "Italy", "DACH", "Other European region"]}, {"id": "q5_types", "step": "Your Accenture project experience", "type": "multi_limit", "limit": 5, "title": "Which types of Labs project work have you been most involved in?", "why": "Different types of work may need different kickoff approaches. Please select the project types that best represent your experience.", "limit_reason": "to focus on the project types most relevant to your experience", "options": ["Strategy / roadmap", "Assessment / discovery", "Laboratory transformation", "System implementation / system integration", "LIMS / laboratory informatics", "Lab automation / instrument connectivity", "Data / AI / analytics", "Managed services / operations", "Quality / validation / regulated transformation", "Laboratory infrastructure / engineering", "Other"]}, {"id": "q6_effectiveness", "step": "Current kickoff experience", "type": "single", "title": "Overall, how effective are the project kickoffs you have experienced at preparing teams to start the work?", "why": "This provides a simple baseline of how well current kickoffs prepare teams. Please answer based on what you have actually experienced, including situations that did not work well.", "options": ["1 – Very ineffective", "2 – Ineffective", "3 – Mixed", "4 – Effective", "5 – Very effective"]}, {"id": "q7_strengths", "step": "Current kickoff experience", "type": "multi_limit", "limit": 5, "title": "Which areas are usually handled well during project kickoff?", "why": "This helps identify practices that already work well and may be worth keeping in a common kickoff approach.", "limit_reason": "to identify the strongest areas rather than selecting everything", "options": ["Project purpose and expected outcomes", "Scope: what is included and excluded", "Deliverables", "Roles, responsibilities and ownership", "Client stakeholders and decision makers", "Governance: how decisions are made and issues are escalated", "Timeline, milestones and deadlines", "Risks and assumptions", "Dependencies on other teams, systems or activities", "Ways of working: how the team collaborates, communicates and manages work", "Technology / environment readiness", "Access to systems and tools", "Quality / regulatory requirements", "Commercial expectations", "Other"]}, {"id": "q8_gaps", "step": "Current kickoff experience", "type": "multi_limit", "limit": 5, "title": "Which areas are most often unclear, incomplete or addressed too late?", "why": "This helps identify recurring weaknesses that may create problems later in delivery.", "limit_reason": "to focus on the most important recurring gaps", "options": ["Project purpose and expected outcomes", "Scope: what is included and excluded", "Deliverables", "Roles, responsibilities and ownership", "Client stakeholders and decision makers", "Governance: how decisions are made and issues are escalated", "Timeline, milestones and deadlines", "Risks and assumptions", "Dependencies on other teams, systems or activities", "Ways of working: how the team collaborates, communicates and manages work", "Technology / environment readiness", "Access to systems and tools", "Quality / regulatory requirements", "Commercial expectations", "Other"]}, {"id": "q9_failure_example", "step": "Current kickoff experience", "type": "text", "title": "Think of a project where problems appeared soon after the project started. What should have been clarified, decided or prepared earlier?", "why": "A real example can reveal issues that fixed-choice questions may miss. Please keep the example general and do not include names or confidential details."}, {"id": "q10_importance", "step": "Critical success factors", "type": "matrix_other", "title": "How important are the following factors for a successful project kickoff?", "why": "These ratings help identify which success factors experienced participants consider most important. You do not need to rate every item. If an important factor is missing from the list, you can add up to three of your own.", "rows": ["Clear project purpose and expected outcomes", "Clear scope and boundaries", "Clear deliverables", "Clear roles, responsibilities and ownership", "Clear client stakeholders and decision makers", "Clear governance, decision making and escalation", "Realistic timeline, milestones and deadlines", "Key risks and assumptions understood", "Critical dependencies identified and owned", "Clear ways of working and team communication", "Required systems, access and environments ready", "Quality / regulatory expectations clear where relevant", "Immediate next steps and owners clear after kickoff"]}, {"id": "q11_top5", "step": "Critical success factors", "type": "multi_limit", "limit": 5, "title": "Which five factors are the most important for a successful Labs project kickoff?", "why": "This forces a clear priority. The combined results will help identify the non-negotiable success factors for the Framework.", "limit_reason": "to identify the factors you consider most critical", "options": ["Clear project purpose and expected outcomes", "Clear scope and boundaries", "Clear deliverables", "Clear roles, responsibilities and ownership", "Clear client stakeholders and decision makers", "Clear governance, decision making and escalation", "Realistic timeline, milestones and deadlines", "Key risks and assumptions understood", "Critical dependencies identified and owned", "Clear ways of working and team communication", "Required systems, access and environments ready", "Quality / regulatory expectations clear where relevant", "Immediate next steps and owners clear after kickoff", "Other"]}, {"id": "q12_readiness", "step": "Critical success factors", "type": "text", "title": "What should be clear or in place before the project team starts the actual project work?", "why": "This helps identify the minimum conditions a team needs before it can start delivery with confidence."}, {"id": "q13_conditions", "step": "Project conditions that change kickoff needs", "type": "multi_limit", "limit": 5, "title": "Which of the following project situations make the kickoff more complex and require extra clarification before the project work starts?", "why": "Think about situations where a normal kickoff would not be enough and the team would need extra discussion or preparation—for example on responsibilities, decisions, risks, dependencies, timelines or how the team will work together.", "limit_reason": "to focus on the situations that create the greatest extra complexity", "options": ["Large project team", "Several workstreams", "Several countries or sites", "Several client functions involved", "External vendors / third parties", "Onshore / nearshore / offshore delivery", "Complex technology or system integrations", "Regulated / Good Practice (GxP) scope", "Tight deadlines", "Fixed-price or strong commercial constraints", "New client relationship", "Unclear client ownership or decision making", "High strategic importance", "Major dependencies on other programmes", "Other"]}, {"id": "q14_conditional", "step": "Project conditions that change kickoff needs", "type": "text", "title": "Choose one project situation you selected above. What should the team do differently during kickoff when that situation is present?", "why": "This helps us understand not only what matters, but when it matters and what teams should do differently."}, {"id": "q15_warnings", "step": "Project conditions that change kickoff needs", "type": "multi_limit", "limit": 5, "title": "Which warning signs at the start of a project usually suggest problems may appear later?", "why": "Early warning signs can show where teams need to act before small issues become delivery problems.", "limit_reason": "to identify the warning signs you consider most serious", "options": ["Different people understand the scope differently", "Key decision makers are unclear", "Roles, responsibilities or ownership are unclear", "Client expectations differ from the delivery team's understanding", "Important dependencies have no clear owner", "Known risks are not being addressed", "Team members do not have the access they need", "Decision making and escalation are not agreed", "Key subject matter experts are not available", "Timeline assumptions appear unrealistic", "Third-party responsibilities are unclear", "Regulatory / quality expectations are unresolved", "Project information is spread across many documents", "Other"]}, {"id": "q16_info", "step": "Critical project information & onboarding", "type": "multi_limit", "limit": 5, "title": "What are the five most important things every team member should understand at the start of a project?", "why": "We want to identify the minimum shared knowledge that is most critical for project success. The combined results will help show which items are the strongest non-negotiables.", "limit_reason": "to identify the minimum information that is most critical for project success", "options": ["Why the project exists and the business outcome it should achieve", "Scope: what is included and excluded", "What the project must deliver", "Client context and key stakeholders", "Governance: who owns what, who decides and how issues are escalated", "Timeline: main phases, milestones and deadlines", "Ways of working: how the team collaborates, communicates, meets and manages work", "Main risks, assumptions and dependencies", "Technology / solution overview", "Quality / regulatory expectations", "Key terminology and acronyms", "Other"]}, {"id": "q17_hardest", "step": "Critical project information & onboarding", "type": "multi_limit", "limit": 5, "title": "Which project information is usually hardest for a new team member to understand quickly when joining an ongoing project?", "why": "This helps identify what should be made easier for colleagues who join after the project has already started.", "limit_reason": "to focus on the information that causes the biggest onboarding difficulties", "options": ["Why the project exists and the business outcome it should achieve", "Scope: what is included and excluded", "What the project must deliver", "Client context and key stakeholders", "Governance: who owns what, who decides and how issues are escalated", "Timeline: main phases, milestones and deadlines", "Ways of working: how the team collaborates, communicates, meets and manages work", "Main risks, assumptions and dependencies", "Technology / solution overview", "Quality / regulatory expectations", "Key terminology and acronyms", "Other"]}, {"id": "q18_primer", "step": "Critical project information & onboarding", "type": "single", "title": "How useful would a short Project Primer be for kickoff and for people joining the project later?", "why": "A Project Primer is a short, easy-to-read summary of the approved project information. It would explain why the project exists, what is in and out of scope, what must be delivered, who is involved, who decides, the main timeline, key risks and dependencies, ways of working, technology context and important terminology. It gives both the initial team and later joiners one clear starting point.", "options": ["1 – Not useful", "2 – Slightly useful", "3 – Moderately useful", "4 – Very useful", "5 – Extremely useful"]}, {"id": "q19_ai", "step": "AI-supported project kickoff", "type": "multi_limit", "limit": 5, "title": "Where could an AI-supported Project Kickoff Architect add the most value?", "why": "This helps identify the AI uses that would save the most effort or improve the quality of project kickoff.", "limit_reason": "to focus on the AI uses you believe would create the most value", "options": ["Read approved project documents and create a clear project summary", "Identify missing or conflicting project information", "Generate a Project Primer", "Suggest the most important kickoff priorities", "Generate a tailored kickoff agenda", "Suggest the people who should attend the project kickoff", "Identify likely risks and dependencies", "Suggest governance and escalation needs", "Suggest questions that should be answered before the project starts", "Draft an initial Responsible, Accountable, Consulted and Informed (RACI) view", "Create project readiness checks", "Create follow-up actions after kickoff", "Reuse approved lessons from similar projects", "Help identify colleagues with relevant project experience", "Other"]}, {"id": "q20_docs", "step": "AI-supported project kickoff", "type": "multi_limit", "limit": 5, "title": "Assume approved project documents can be securely loaded into an approved AI agent. Which documents would be the most useful inputs?", "why": "The AI agent could use approved documents that already exist instead of asking the Project Manager to enter the same information again. Please select the documents that would give the agent the clearest understanding of the project.", "limit_reason": "to identify the most useful documents rather than selecting every available document", "options": ["Statement of Work / contract scope", "Proposal / solution proposal", "Project overview or initiation document", "Project plan / timeline", "Team structure / staffing plan", "Governance and meeting structure", "Solution / architecture overview", "Risks, Assumptions, Issues and Dependencies (RAID) log", "Client requirements, process descriptions or other approved project inputs", "Previous phase / handover material", "Other"]}, {"id": "q21_comfort", "step": "AI-supported project kickoff", "type": "single", "title": "How comfortable would you be using an AI agent that reads approved project documents and asks only for information that is missing or unclear?", "why": "This tests whether a document-first approach would feel practical and acceptable. Please answer based on your real comfort level; there is no preferred answer.", "options": ["1 – Not comfortable", "2 – Slightly comfortable", "3 – Neutral", "4 – Comfortable", "5 – Very comfortable"]}, {"id": "q22_followup", "step": "AI-supported project kickoff", "type": "single", "title": "If the AI agent has already read the available project documents, how useful would it be if it asked only the few extra questions needed to fill important gaps?", "why": "The aim is to avoid a long setup questionnaire. For example, if the documents show several external vendors but do not say who coordinates them, the agent could ask: “Who owns overall coordination across the vendors?” It would ask extra questions only when the answer could change its kickoff recommendation.", "options": ["1 – Not useful", "2 – Slightly useful", "3 – Moderately useful", "4 – Very useful", "5 – Extremely useful"]}, {"id": "q23_best", "step": "Final reflections", "type": "text", "title": "Think of one of the best project kickoffs you have experienced. What made it particularly effective?", "why": "Positive examples help identify proven practices that may be worth standardising."}, {"id": "q24_one_problem", "step": "Final reflections", "type": "text", "title": "If the Labs Project Kickoff Framework could solve only one recurring problem, what should that problem be? Briefly explain why.", "why": "This helps identify the single problem that participants believe deserves the greatest attention and why it matters."}, {"id": "q25_other", "step": "Final reflections", "type": "text", "title": "Is there anything important about starting a project or running a project kickoff that has not been covered?", "why": "This gives you space to add something important that the questionnaire may have missed."}];
+const N8N_WEBHOOK_URL = "PASTE_YOUR_N8N_WEBHOOK_URL_HERE";
+const steps = ["Your Accenture project experience","Current kickoff experience","Critical success factors","Project conditions that change kickoff needs","Critical project information & onboarding","AI-supported project kickoff","Final reflections"];
+const root = document.getElementById("dynamic");
+
+function esc(s) {
+ return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function help(q) {
+ return `<div class="help"><button type="button" aria-label="Why this question matters">?</button><div class="tip">${esc(q.why)}</div></div>`;
+}
+function optionHtml(q,o,type) {
+ const isOther = o === "Other" || o === "Other European region";
+ return `<label class="choice"><input type="${type}" name="${q.id}" value="${esc(o)}" data-other="${isOther ? "1":"0"}">${esc(o)}</label>`;
+}
+function options(q,type="checkbox") {
+ return `<div class="opts">${q.options.map(o=>optionHtml(q,o,type)).join("")}</div>
+ <div class="other-wrap" data-other-for="${q.id}"><label>Please specify:</label><input class="other-input" type="text" name="${q.id}_other" maxlength="250" placeholder="Enter your answer"></div>`;
+}
+function renderQ(q,n) {
+ let body="";
+ if(q.type==="single") body=options(q,"radio");
+ if(q.type==="multi" || q.type==="multi_limit") {
+   const note=q.limit ? `<div class="limit-note">Select up to ${q.limit} <span style="font-weight:400">(${esc(q.limit_reason)})</span></div>` : "";
+   body=note+options(q)+(q.limit?`<div class="counter">0 of ${q.limit} selected</div>`:"");
+ }
+ if(q.type==="text") {
+   body=`<textarea name="${q.id}" data-maxwords="500" placeholder="Please keep examples general and non-confidential."></textarea><div class="word"><span>Maximum 500 words</span><span class="wc">0 / 500</span></div>`;
+ }
+ if(q.type==="matrix_other") {
+   body=`<div class="matrix-instruction"><b>Rate only the items you feel able to judge.</b> You may leave any row blank.</div>
+   <div class="matrix"><table><thead><tr><th>Success factor</th><th>1<br>Not important</th><th>2</th><th>3</th><th>4</th><th>5<br>Essential</th></tr></thead><tbody>
+   ${q.rows.map((r,i)=>`<tr><td>${esc(r)}</td>${[1,2,3,4,5].map(v=>`<td><input type="radio" name="${q.id}_${i+1}" value="${v}" aria-label="${esc(r)}: ${v}"></td>`).join("")}</tr>`).join("")}
+   </tbody></table></div>
+   <div class="missing-factor-box">
+     <b>Is an important success factor missing from the list?</b>
+     <p>This is optional. Add something only if it is not already covered above.</p>
+     <button type="button" class="add-factor-btn" id="addFactorBtn">+ Add a missing success factor</button>
+     <div id="extraFactors"></div>
+     <div class="small" id="extraFactorHint">You can add up to 3 additional factors.</div>
+   </div>`;
+ }
+ if(q.id==="q21_comfort") {
+   body += `<div id="q21_reason_wrap" class="other-wrap"><label>You selected that you are not fully comfortable. What would concern you most?</label><textarea name="q21_comfort_reason" data-maxwords="500" placeholder="Please explain briefly."></textarea><div class="word"><span>Maximum 500 words</span><span class="wc">0 / 500</span></div></div>`;
+ }
+ return `<div class="q" data-qid="${q.id}" ${q.limit?`data-limit="${q.limit}"`:""}>
+   <div class="qh"><span class="qn">Q${n}</span><div class="qt">${esc(q.title)}</div>${help(q)}</div>
+   <div class="inline-warning" aria-live="polite"></div>${body}</div>`;
+}
+
+steps.forEach((s,idx)=>{
+ const qs=QUESTIONS.filter(q=>q.step===s);
+ const sec=document.createElement("section");
+ sec.className="step"; sec.dataset.title=s;
+ sec.innerHTML=`<div class="intro"><div class="ey">Section ${idx+1} of ${steps.length}</div><h2>${esc(s)}</h2><p>Answer only where you have relevant experience.</p></div>`+
+   qs.map(q=>renderQ(q,QUESTIONS.indexOf(q)+1)).join("");
+ root.appendChild(sec);
+});
+
+/* Tooltip behaviour: hover shows; click pins; click outside closes. */
+document.querySelectorAll(".help button").forEach(btn=>{
+ btn.addEventListener("click",e=>{
+   e.stopPropagation();
+   const wrap=btn.closest(".help");
+   document.querySelectorAll(".help.open").forEach(x=>{if(x!==wrap)x.classList.remove("open")});
+   wrap.classList.toggle("open");
+ });
+});
+document.addEventListener("click",e=>{
+ if(!e.target.closest(".help")) document.querySelectorAll(".help.open").forEach(x=>x.classList.remove("open"));
+});
+
+/* Other reveals free-text field. */
+function refreshOther(qid) {
+ const wrap=document.querySelector(`[data-other-for="${CSS.escape(qid)}"]`);
+ if(!wrap) return;
+ const selected=[...document.querySelectorAll(`[name="${CSS.escape(qid)}"]:checked`)];
+ const show=selected.some(x=>x.dataset.other==="1");
+ wrap.classList.toggle("show",show);
+ if(!show) {
+   const inp=wrap.querySelector("input");
+   if(inp) inp.value="";
+ }
+}
+QUESTIONS.forEach(q=>{
+ document.querySelectorAll(`[name="${CSS.escape(q.id)}"]`).forEach(el=>el.addEventListener("change",()=>refreshOther(q.id)));
+});
+
+/* Max selections. */
+document.querySelectorAll("[data-limit]").forEach(w=>{
+ const lim=+w.dataset.limit;
+ const boxes=[...w.querySelectorAll('input[type="checkbox"]')];
+ const c=w.querySelector(".counter");
+ const warn=w.querySelector(".inline-warning");
+ function refresh() {
+   const n=boxes.filter(x=>x.checked).length;
+   if(c) { c.textContent=`${n} of ${lim} selected`; c.classList.toggle("max",n===lim); }
+   boxes.forEach(x=>x.closest(".choice").classList.toggle("off",!x.checked && n>=lim));
+   if(n<=lim && warn && !warn.dataset.keep) warn.classList.remove("show");
+ }
+ boxes.forEach(x=>x.addEventListener("change",refresh));
+ refresh();
+});
+
+/* Q7 and Q8: do not allow same item in both lists. */
+function guardOpposites(sourceName,targetName) {
+ document.querySelectorAll(`[name="${sourceName}"]`).forEach(box=>{
+   box.addEventListener("change",()=>{
+     if(!box.checked || box.value==="Other") return;
+     const same=[...document.querySelectorAll(`[name="${targetName}"]`)].find(x=>x.value===box.value && x.checked);
+     if(same) {
+       box.checked=false;
+       box.dispatchEvent(new Event("change",{bubbles:true}));
+       const q=box.closest(".q");
+       const warn=q.querySelector(".inline-warning");
+       warn.textContent=`You already selected “${box.value}” in the other question. Please choose the option that best reflects your overall experience.`;
+       warn.classList.add("show");
+       warn.dataset.keep="1";
+       setTimeout(()=>{warn.classList.remove("show");delete warn.dataset.keep},5000);
+     }
+   });
+ });
+}
+guardOpposites("q7_strengths","q8_gaps");
+guardOpposites("q8_gaps","q7_strengths");
+
+/* Q10: show optional extra success-factor rows only when requested. */
+let extraFactorCount=0;
+const addFactorBtn=document.getElementById("addFactorBtn");
+const extraFactors=document.getElementById("extraFactors");
+const extraFactorHint=document.getElementById("extraFactorHint");
+
+function addExtraFactor(){
+  if(!addFactorBtn || !extraFactors || extraFactorCount>=3) return;
+  extraFactorCount++;
+  const n=extraFactorCount;
+  const row=document.createElement("div");
+  row.className="extra-factor-row";
+  row.innerHTML=`
+    <input class="matrix-other-text" type="text" name="q10_importance_other_text_${n}" maxlength="250" placeholder="Describe the missing success factor">
+    <div class="extra-rating">
+      <span>Importance:</span>
+      ${[1,2,3,4,5].map(v=>`<label><input type="radio" name="q10_importance_other_rating_${n}" value="${v}" disabled> ${v}</label>`).join("")}
+    </div>`;
+  extraFactors.appendChild(row);
+
+  const text=row.querySelector('input[type="text"]');
+  const radios=[...row.querySelectorAll('input[type="radio"]')];
+  text.addEventListener("input",()=>{
+    const hasText=text.value.trim().length>0;
+    radios.forEach(r=>r.disabled=!hasText);
+    if(!hasText) radios.forEach(r=>r.checked=false);
+  });
+
+  if(extraFactorCount>=3){
+    addFactorBtn.style.display="none";
+    extraFactorHint.textContent="Maximum of 3 additional factors reached.";
+  } else {
+    const remaining=3-extraFactorCount;
+    extraFactorHint.textContent=`You can add ${remaining} more additional factor${remaining===1?"":"s"}.`;
+  }
+  text.focus();
+}
+if(addFactorBtn) addFactorBtn.addEventListener("click",addExtraFactor);
+
+/* Q21: show a reason only for ratings 1 or 2. */
+function updateQ21Reason(){
+ const sel=document.querySelector('input[name="q21_comfort"]:checked');
+ const wrap=document.getElementById("q21_reason_wrap");
+ if(!wrap) return;
+ const show=!!(sel && (sel.value.startsWith("1 ") || sel.value.startsWith("2 ")));
+ wrap.classList.toggle("show",show);
+ if(!show) wrap.querySelector("textarea").value="";
+}
+/* Optional single-choice questions: click the selected answer again to clear it. */
+["q18_primer","q21_comfort","q22_followup"].forEach(name=>{
+  document.querySelectorAll(`input[type="radio"][name="${name}"]`).forEach(r=>{
+    r.addEventListener("pointerdown",()=>{ r.dataset.wasChecked = r.checked ? "1" : "0"; });
+    r.addEventListener("click",()=>{
+      if(r.dataset.wasChecked==="1"){
+        r.checked=false;
+        r.dataset.wasChecked="0";
+        r.dispatchEvent(new Event("change",{bubbles:true}));
+      }
+    });
+  });
+});
+
+document.querySelectorAll('input[name="q21_comfort"]').forEach(x=>x.addEventListener("change",updateQ21Reason));
+updateQ21Reason();
+
+/* 500 word hard limit. */
+document.querySelectorAll("textarea,input[type=\"text\"]").forEach(t=>t.addEventListener("input",()=>t.classList.remove("text-invalid")));
+
+document.querySelectorAll("textarea[data-maxwords]").forEach(t=>{
+ const c=t.parentElement.querySelector(".wc");
+ t.addEventListener("input",()=>{
+   let a=t.value.trim().match(/\S+/g)||[];
+   if(a.length>500) {
+     t.value=a.slice(0,500).join(" ");
+     a=t.value.trim().match(/\S+/g)||[];
+   }
+   c.textContent=`${a.length} / 500`;
+ });
+});
+
+/* Consent readiness. */
+const consentIds=["c1","c2","c3","c4"];
+const next=document.getElementById("next");
+const consentStatus=document.getElementById("consentStatus");
+function consentOK(){return consentIds.every(id=>document.getElementById(id).checked)}
+function updateConsentState() {
+ if(currentStep!==0) {
+   next.classList.remove("pending");
+   return;
+ }
+ const ok=consentOK();
+ next.classList.toggle("pending",!ok);
+ consentStatus.textContent=ok ? "Consent complete — you can continue to the questionnaire." : "Please tick all four boxes to continue.";
+ consentStatus.classList.toggle("ready",ok);
+}
+consentIds.forEach(id=>document.getElementById(id).addEventListener("change",updateConsentState));
+
+/* Optional text quality check: blank is always allowed, but placeholder/test entries are not accepted. */
+const placeholderAnswers = new Set([
+  "test","testing","n/a","na","n.a.","none","no","nil","asdf","abc","xxx","qwerty","idk","i don't know","i dont know","don't know","dont know","-","."
+]);
+
+function normaliseText(v){
+  return v.trim().toLowerCase().replace(/\s+/g," ");
+}
+function looksLikePlaceholder(v){
+  const n=normaliseText(v);
+  if(!n) return false;
+  if(placeholderAnswers.has(n)) return true;
+  if(/^([a-z])\1{3,}$/i.test(n)) return true;
+  if(/^(test\s*){1,4}$/i.test(n)) return true;
+  return false;
+}
+function textIsMeaningful(el){
+  const v=el.value.trim();
+  if(!v) return true; // all survey questions remain optional
+  if(looksLikePlaceholder(v)) return false;
+
+  // Longer open-text answers should contain at least 3 meaningful words.
+  if(el.tagName==="TEXTAREA"){
+    const words=v.match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9][A-Za-zÀ-ÖØ-öø-ÿ0-9'’-]*/g)||[];
+    return words.length>=3;
+  }
+
+  // Short "Other" / added-factor fields may legitimately be one short label such as "Nordics".
+  return /[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/.test(v);
+}
+function validateVisibleText(step){
+  let firstBad=null;
+  step.querySelectorAll('textarea,input[type="text"]').forEach(el=>{
+    if(el.offsetParent===null) return;
+    const ok=textIsMeaningful(el);
+    el.classList.toggle("text-invalid",!ok);
+    if(!ok && !firstBad) firstBad=el;
+  });
+  return firstBad;
+}
+
+/* Navigation. */
+let currentStep=0;
+const all=[...document.querySelectorAll(".step")];
+const prog=document.getElementById("prog"), label=document.getElementById("label"), pct=document.getElementById("pct");
+const back=document.getElementById("back"), error=document.getElementById("error");
+function show() {
+ all.forEach((s,i)=>s.classList.toggle("on",i===currentStep));
+ const p=Math.round(currentStep/(all.length-1)*100);
+ prog.style.width=p+"%"; pct.textContent=p+"%"; label.textContent=all[currentStep].dataset.title;
+ back.style.visibility=currentStep===0?"hidden":"visible";
+ next.textContent=currentStep===all.length-1?"Submit response":"Continue →";
+ error.classList.remove("show");
+ updateConsentState();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+show();
+
+back.addEventListener("click",()=>{if(currentStep>0){currentStep--;show()}});
+next.addEventListener("click",async()=>{
+ if(currentStep===0 && !consentOK()) {
+   const missing=consentIds.filter(id=>!document.getElementById(id).checked).length;
+   error.textContent=`Almost there — please tick the remaining ${missing} consent box${missing===1?"":"es"} before continuing.`;
+   error.classList.add("show");
+   document.querySelector(".consent").scrollIntoView({behavior:"smooth",block:"center"});
+   return;
+ }
+
+ if(currentStep>0){
+   const bad=validateVisibleText(all[currentStep]);
+   if(bad){
+     error.textContent="Please revise the highlighted answer. If you choose to answer a text question, enter a meaningful answer rather than a placeholder such as “test” or “n/a”. You can also leave the question blank.";
+     error.classList.add("show");
+     bad.scrollIntoView({behavior:"smooth",block:"center"});
+     bad.focus();
+     return;
+   }
+ }
+
+ if(currentStep<all.length-1) {currentStep++;show();return;}
+ await submit();
+});
+
+/* Collect payload. No names/emails are intentionally collected. */
+function answers() {
+ const fd=new FormData(document.getElementById("form")), out={};
+ for(const [k,v] of fd.entries()) {
+   if(out[k]===undefined) out[k]=v;
+   else if(Array.isArray(out[k])) out[k].push(v);
+   else out[k]=[out[k],v];
+ }
+ return out;
+}
+
+/* Submission: paste your production n8n webhook URL below.
+   The browser POSTs one JSON object to n8n. n8n can then:
+   1) validate/store the response in an approved data store,
+   2) update descriptive statistics,
+   3) prepare open-text responses for NVivo,
+   4) optionally run approved agent checks/theme suggestions,
+   5) maintain the evidence dataset for Framework development.
+*/
+async function submit() {
+ const payload={
+   study:"Labs Project Kickoff Framework - European Research",
+   study_lead:"Dr Constantin Fahom",
+   schema_version:"3.0",
+   submitted_at:new Date().toISOString(),
+   consent:true,
+   answers:answers()
+ };
+ next.disabled=true; next.textContent="Submitting…";
+ if(!N8N_WEBHOOK_URL || N8N_WEBHOOK_URL.includes("PASTE_YOUR")) {
+   console.log("DEMO MODE - payload not sent because webhook is not configured:",payload);
+   next.disabled=false; next.textContent="Submit response";
+   error.textContent="This draft is not yet connected to n8n. Add the production n8n webhook URL in the HTML before launch.";
+   error.classList.add("show");
+   return;
+ }
+ try {
+   const r=await fetch(N8N_WEBHOOK_URL,{
+     method:"POST",
+     headers:{"Content-Type":"application/json"},
+     body:JSON.stringify(payload)
+   });
+   if(!r.ok) throw new Error("Submission failed");
+   finish();
+ } catch(e) {
+   next.disabled=false; next.textContent="Submit response";
+   error.textContent="The response could not be submitted. Please check your connection and try again.";
+   error.classList.add("show");
+ }
+}
+function finish() {
+ document.getElementById("form").style.display="none";
+ document.getElementById("nav").style.display="none";
+ document.getElementById("success").classList.add("on");
+ prog.style.width="100%"; pct.textContent="100%"; label.textContent="Complete";
+ if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+ const colors=["#A100FF","#111","#D56DFF","#65009B","#EFC8FF","#A100FF"];
+ for(let i=0;i<70;i++) {
+   const d=document.createElement("div"); d.className="conf";
+   d.style.left=Math.random()*100+"vw";
+   d.style.background=colors[Math.floor(Math.random()*colors.length)];
+   d.style.setProperty("--drift",(Math.random()*220-110)+"px");
+   d.style.animationDuration=(2.5+Math.random()*2)+"s";
+   document.body.appendChild(d); setTimeout(()=>d.remove(),5000);
+ }
+}
+</script>
+</body></html>
